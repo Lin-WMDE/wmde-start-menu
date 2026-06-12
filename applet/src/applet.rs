@@ -9,6 +9,7 @@ use cosmic::cctk::sctk::reexports::protocols::xdg::shell::client::xdg_positioner
 use cosmic::cosmic_config::{Config, CosmicConfigEntry};
 use cosmic::iced::event::listen_raw;
 use cosmic::iced::keyboard::key::Named;
+use cosmic::iced::widget::operation::AbsoluteOffset;
 use cosmic::iced::widget::scrollable::{RelativeOffset, Viewport};
 use cosmic::iced::{
     Alignment,
@@ -793,23 +794,15 @@ impl Applet {
                 return Task::none();
             }
 
-            let total_height = (self.available_applications.len() as f32 * item_height).max(1.0);
-            let max_scroll = (total_height - viewport_height).max(0.0);
             let target_offset = if selected_top < visible_top {
                 selected_top
             } else {
                 selected_bottom - viewport_height
             };
 
-            let target = if max_scroll > 0.0 {
-                (target_offset / max_scroll).clamp(0.0, 1.0)
-            } else {
-                0.0
-            };
-
-            return Task::batch([cosmic::iced::widget::operation::snap_to(
+            return Task::batch([cosmic::iced::widget::operation::scroll_to(
                 self.scrollable_id.clone(),
-                RelativeOffset { x: 0., y: target },
+                AbsoluteOffset { x: 0., y: target_offset },
             )]);
         }
 
@@ -831,7 +824,6 @@ impl Applet {
             let viewport_height = self.scroll_viewport_height.max(item_height);
             let visible_top = self.scroll_offset;
             let visible_bottom = visible_top + viewport_height;
-            let padding = spacing.space_xxs as f32;
 
             let selected_top = index as f32 * item_height;
             let selected_bottom = selected_top + item_height;
@@ -840,24 +832,17 @@ impl Applet {
                 return Task::none();
             }
 
-            let total_height =
-                (self.available_applications.len() as f32 * item_height).max(1.0) + padding * 2.0;
-            let max_scroll = (total_height - viewport_height).max(0.0);
             let target_offset = if selected_top < visible_top {
                 selected_top
             } else {
                 selected_bottom - viewport_height
             };
 
-            let target = if max_scroll > 0.0 {
-                (target_offset / max_scroll).clamp(0.0, 1.0)
-            } else {
-                0.0
-            };
+            dbg!(target_offset);
 
-            return Task::batch([cosmic::iced::widget::operation::snap_to(
+            return Task::batch([cosmic::iced::widget::operation::scroll_to(
                 self.scrollable_id.clone(),
-                RelativeOffset { x: 0., y: target },
+                AbsoluteOffset { x: 0., y: target_offset + 16.0 },
             )]);
         }
 
