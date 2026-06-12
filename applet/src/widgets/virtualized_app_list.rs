@@ -32,7 +32,7 @@ impl VirtualizedAppList {
     /// A scrollable element containing only the visible app items
     pub fn view(applet: &Applet) -> Element<'_, Message> {
         let Spacing {
-            space_xxs,
+            // space_xxs,
             space_s,
             space_xl,
             ..
@@ -58,7 +58,7 @@ impl VirtualizedAppList {
         // Add spacer above visible items to maintain scroll position
         if render_start > 0 {
             let spacer_height = (render_start as f32 * item_height) as u16;
-            items.push(cosmic::widget::Space::new(Length::Fill, spacer_height).into());
+            items.push(cosmic::widget::Space::new().width(Length::Fill).height(spacer_height).into());
         }
 
         // Add visible and buffered items
@@ -79,13 +79,13 @@ impl VirtualizedAppList {
         // Add spacer below visible items
         if render_end < total_items {
             let remaining_height = ((total_items - render_end) as f32 * item_height) as u16;
-            items.push(cosmic::widget::Space::new(Length::Fill, remaining_height).into());
+            items.push(cosmic::widget::Space::new().width(Length::Fill).height(remaining_height).into());
         }
 
         // Build list column from items
         let app_list: ListColumn<Message> = items.into_iter().fold(
             cosmic::widget::list_column()
-                .padding([space_xxs as f32, 0.])
+                // .padding([space_xxs as f32, 0.])
                 .list_item_padding([0., space_s as f32]),
             |list, item| list.add(item),
         );
@@ -126,7 +126,7 @@ impl VirtualizedAppList {
         let button = cosmic::widget::button::custom(
             row![
                 Self::create_icon_widget(app, space_l),
-                cosmic::widget::Space::new(5, Length::Fill),
+                cosmic::widget::Space::new().width(5).height(Length::Fill),
                 if show_comment {
                     column![
                         text(&app.name),

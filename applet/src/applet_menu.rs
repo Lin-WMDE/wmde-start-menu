@@ -197,7 +197,7 @@ impl AppletMenu {
         }
 
         // add power menu to the bottom of the categories pane
-        categories_pane.push(cosmic::widget::Space::new(Length::Fill, Length::Fill).into());
+        categories_pane.push(cosmic::widget::Space::new().width(Length::Fill).height(Length::Fill).into());
         categories_pane.push(AppletMenu::create_power_menu(&applet));
 
         cosmic::widget::column::with_children(categories_pane)
@@ -208,7 +208,7 @@ impl AppletMenu {
 
     pub fn create_logged_user_widget(applet: &Applet) -> Element<'_, Message> {
         if applet.config.user_widget == crate::config::UserWidgetStyle::None {
-            return cosmic::widget::Space::new(0, 0).into();
+            return cosmic::widget::Space::new().width(0).height(0).into();
         }
 
         if let Some(user) = &applet.current_user {
@@ -258,19 +258,19 @@ impl AppletMenu {
                             .into()
                     }
                 }
-                crate::config::UserWidgetStyle::None => cosmic::widget::Space::new(0, 0).into(),
+                crate::config::UserWidgetStyle::None => cosmic::widget::Space::new().width(0).height(0).into(),
             };
 
             row![
                 profile_picture_widget,
-                cosmic::widget::Space::new(5, Length::Shrink),
+                cosmic::widget::Space::new().width(5).height(Length::Shrink),
                 nametag_widget
             ]
             .align_y(Alignment::Center)
             .padding([10., 0.])
             .into()
         } else {
-            cosmic::widget::Space::new(0, 0).into()
+            cosmic::widget::Space::new().width(0).height(0).into()
         }
     }
 }

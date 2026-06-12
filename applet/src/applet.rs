@@ -9,6 +9,7 @@ use cosmic::cctk::sctk::reexports::protocols::xdg::shell::client::xdg_positioner
 use cosmic::cosmic_config::{Config, CosmicConfigEntry};
 use cosmic::iced::event::listen_raw;
 use cosmic::iced::keyboard::key::Named;
+use cosmic::iced::widget::scrollable::{RelativeOffset, Viewport};
 use cosmic::iced::{
     Alignment,
     platform_specific::shell::commands::popup::{destroy_popup, get_popup},
@@ -16,7 +17,6 @@ use cosmic::iced::{
     window::Id,
 };
 use cosmic::iced::{Subscription, keyboard};
-use cosmic::iced_widget::scrollable::{RelativeOffset, Viewport};
 use cosmic::surface::Action;
 use cosmic::{Application, Element};
 use cosmic_app_list_config::AppListConfig;
@@ -436,10 +436,6 @@ impl Application for Applet {
         }
     }
 
-    fn style(&self) -> Option<cosmic::iced_runtime::Appearance> {
-        Some(cosmic::applet::style())
-    }
-
     /// Register subscriptions for this application.
     ///
     /// Subscriptions are long-running async tasks running in the background which
@@ -447,7 +443,7 @@ impl Application for Applet {
     /// beginning of the application, and persist through its lifetime.
     fn subscription(&self) -> Subscription<Self::Message> {
         Subscription::batch(vec![
-            desktop_files(self.core.main_window_id()).map(Message::FileEvent),
+            desktop_files().map(Message::FileEvent),
             listen_raw(|event, _, _| {
                 return match event {
                     cosmic::iced::Event::Keyboard(keyboard::Event::KeyPressed {
@@ -568,11 +564,9 @@ impl Applet {
 
         Task::batch([
             // reset scroll position
-            cosmic::iced_runtime::task::widget(
-                cosmic::iced_core::widget::operation::scrollable::snap_to(
-                    self.scrollable_id.clone(),
-                    RelativeOffset { x: 0., y: 0. },
-                ),
+            cosmic::iced::widget::operation::snap_to(
+                self.scrollable_id.clone(),
+                RelativeOffset { x: 0., y: 0. },
             ),
             Task::perform(
                 tokio::task::spawn_blocking(move || crate::logic::apps::load_filtered_apps(input)),
@@ -710,11 +704,9 @@ impl Applet {
 
         Task::batch([
             // reset scroll position
-            cosmic::iced_runtime::task::widget(
-                cosmic::iced_core::widget::operation::scrollable::snap_to(
-                    self.scrollable_id.clone(),
-                    RelativeOffset { x: 0., y: 0. },
-                ),
+            cosmic::iced::widget::operation::snap_to(
+                self.scrollable_id.clone(),
+                RelativeOffset { x: 0., y: 0. },
             ),
             Task::perform(
                 tokio::task::spawn_blocking(move || {
@@ -815,11 +807,9 @@ impl Applet {
                 0.0
             };
 
-            return Task::batch([cosmic::iced_runtime::task::widget(
-                cosmic::iced_core::widget::operation::scrollable::snap_to(
-                    self.scrollable_id.clone(),
-                    RelativeOffset { x: 0., y: target },
-                ),
+            return Task::batch([cosmic::iced::widget::operation::snap_to(
+                self.scrollable_id.clone(),
+                RelativeOffset { x: 0., y: target },
             )]);
         }
 
@@ -850,7 +840,8 @@ impl Applet {
                 return Task::none();
             }
 
-            let total_height = (self.available_applications.len() as f32 * item_height).max(1.0) + padding * 2.0;
+            let total_height =
+                (self.available_applications.len() as f32 * item_height).max(1.0) + padding * 2.0;
             let max_scroll = (total_height - viewport_height).max(0.0);
             let target_offset = if selected_top < visible_top {
                 selected_top
@@ -864,11 +855,9 @@ impl Applet {
                 0.0
             };
 
-            return Task::batch([cosmic::iced_runtime::task::widget(
-                cosmic::iced_core::widget::operation::scrollable::snap_to(
-                    self.scrollable_id.clone(),
-                    RelativeOffset { x: 0., y: target },
-                ),
+            return Task::batch([cosmic::iced::widget::operation::snap_to(
+                self.scrollable_id.clone(),
+                RelativeOffset { x: 0., y: target },
             )]);
         }
 
