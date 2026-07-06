@@ -14,3 +14,18 @@ users = "0.11.0"
 serde = { version = "1.0.228", features = ["derive"] }
 tokio = "1.49.0"
 futures = "0.3.31"
+
+# Unify every libcosmic crate on the WMDE fork (Lin-WMDE/libcosmic@wmde = e7f278d +
+# header_padding). Patch BOTH pop-os URL forms so cosmic-app-list-config's cosmic-config
+# resolves to the same version as ours (fixes the two-cosmic-config type mismatch).
+[patch."https://github.com/pop-os/libcosmic"]
+libcosmic = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+cosmic-config = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+cosmic-config-derive = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+cosmic-theme = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+
+[patch."https://github.com/pop-os/libcosmic.git"]
+libcosmic = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+cosmic-config = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+cosmic-config-derive = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+cosmic-theme = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
