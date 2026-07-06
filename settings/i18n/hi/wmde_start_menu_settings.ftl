@@ -1,4 +1,4 @@
-app-title = Classic Menu
+app-title = WMDE Start Menu
 about = जानकारी
 settings = सेटिंग्स
 default-settings = डिफ़ॉल्ट पर रीसेट करें

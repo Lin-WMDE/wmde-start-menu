@@ -9,7 +9,7 @@ pub struct AppletSignalsService {
     pub tx: UnboundedSender<Message>,
 }
 
-#[interface(name = "com.championpeak87.CosmicExtClassicMenu")]
+#[interface(name = "fun.wmde.StartMenu")]
 impl AppletSignalsService {
     fn toggle_popup_signal(&self) -> () {
         self.tx.send(Message::SuperKeyPressed).unwrap();

@@ -1,11 +1,10 @@
 [Desktop Entry]
-Name=Classic Menu
-Name[cs]=Klasické menu
-Exec=cosmic-ext-classic-menu-applet
+Name=WMDE Start Menu
+Exec=wmde-start-menu-applet
 Terminal=false
 Type=Application
 StartupNotify=true
-Icon=com.championpeak87.cosmic-ext-classic-menu
+Icon=fun.wmde.start-menu
 Categories=COSMIC;
 Keywords=COSMIC
 MimeType=

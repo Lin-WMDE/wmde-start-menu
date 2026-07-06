@@ -1,4 +1,4 @@
-app-title = Classic Menu
+app-title = WMDE Start Menu
 about = Névjegy
 settings = Beállítások
 default-settings = Alapértelmezés visszaállítása

@@ -1,4 +1,4 @@
-app-title = Classic Menu
+app-title = WMDE Start Menu
 about = O aplikácii
 settings = Nastavenia
 default-settings = Obnoviť predvolené

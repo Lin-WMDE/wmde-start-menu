@@ -1,4 +1,4 @@
-app-title = Classic Menu
+app-title = WMDE Start Menu
 about = ಬಗ್ಗೆ
 settings = ಸೆಟ್ಟಿಂಗ್‌ಗಳು
 default-settings = ಡೀಫಾಲ್ಟ್‌ಗೆ ಮರುಹೊಂದಿಸಿ

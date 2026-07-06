@@ -76,26 +76,6 @@ uninstall-local:
     rm ${XDG_DATA_HOME:-~/.local/share}/{{metainfo-path}}
     rm ${XDG_DATA_HOME:-~/.local/share}/{{icons-dst}}
 
-# Compiles and packages deb with release profile
-build-deb:
-    command -v cargo-deb || cargo install cargo-deb
-    cargo deb
-
-[no-cd]
-install-deb:
-    apt install --reinstall ./target/debian/*.deb
-
-# Compiles and packages rpm with release profile
-[no-cd]
-build-rpm: build-release
-    command -v cargo-generate-rpm || cargo install cargo-generate-rpm
-    strip -s {{bin-src}}
-    cargo generate-rpm
-
-[no-cd]
-install-rpm:
-    dnf install ./target/generate-rpm/*.rpm
-
 
 # Compiles release profile with vendored dependencies
 build-vendored *args: vendor-extract (build-release '--frozen --offline' args)

@@ -1,4 +1,4 @@
-app-title = Classic Menu
+app-title = WMDE Start Menu
 about = このアプリについて
 settings = 設定
 default-settings = デフォルトにリセット

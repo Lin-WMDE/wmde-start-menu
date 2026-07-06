@@ -996,52 +996,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cosmic-ext-classic-menu-applet"
-version = "0.0.14"
-dependencies = [
- "accounts-zbus",
- "cached",
- "cosmic-app-list-config",
- "cosmic-settings-config",
- "futures",
- "fuzzy-matcher",
- "i18n-embed",
- "i18n-embed-fl",
- "libcosmic",
- "log",
- "logind-zbus",
- "notify",
- "once_cell",
- "open",
- "rust-embed",
- "rustix 1.1.4",
- "serde",
- "simple_logger",
- "tokio",
- "unicode-normalization",
- "users",
- "zbus",
-]
-
-[[package]]
-name = "cosmic-ext-classic-menu-settings"
-version = "0.0.14"
-dependencies = [
- "cosmic-ext-classic-menu-applet",
- "futures-util",
- "i18n-embed",
- "i18n-embed-fl",
- "libcosmic",
- "log",
- "open",
- "rust-embed",
- "simple_logger",
- "tokio",
- "vergen",
- "walkdir",
-]
-
-[[package]]
 name = "cosmic-freedesktop-icons"
 version = "0.4.0"
 source = "git+https://github.com/pop-os/freedesktop-icons#ab4c57b8e416c6af9297cb04d101889896fd9a92"
@@ -6799,6 +6753,52 @@ dependencies = [
  "serde_json",
  "unicode-xid",
  "wasmparser",
+]
+
+[[package]]
+name = "wmde-start-menu-applet"
+version = "0.0.14"
+dependencies = [
+ "accounts-zbus",
+ "cached",
+ "cosmic-app-list-config",
+ "cosmic-settings-config",
+ "futures",
+ "fuzzy-matcher",
+ "i18n-embed",
+ "i18n-embed-fl",
+ "libcosmic",
+ "log",
+ "logind-zbus",
+ "notify",
+ "once_cell",
+ "open",
+ "rust-embed",
+ "rustix 1.1.4",
+ "serde",
+ "simple_logger",
+ "tokio",
+ "unicode-normalization",
+ "users",
+ "zbus",
+]
+
+[[package]]
+name = "wmde-start-menu-settings"
+version = "0.0.14"
+dependencies = [
+ "futures-util",
+ "i18n-embed",
+ "i18n-embed-fl",
+ "libcosmic",
+ "log",
+ "open",
+ "rust-embed",
+ "simple_logger",
+ "tokio",
+ "vergen",
+ "walkdir",
+ "wmde-start-menu-applet",
 ]
 
 [[package]]

@@ -1,4 +1,4 @@
-app-title = Classic Menu
+app-title = WMDE Start Menu
 about = 关于
 settings = 设置
 default-settings = 恢复默认设置
