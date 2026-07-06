@@ -1,7 +1,7 @@
 # Maintainer: WMDE <https://wmde.fun>
 # Contributor: Kamil Lihan <k.lihan@outlook.com> (original cosmic-ext-classic-menu)
 #
-# Builds our fork Lin-WMDE/start-menu (default branch `master`).
+# Builds our fork Lin-WMDE/wmde-start-menu (default branch `master`).
 pkgname=wmde-start-menu
 pkgver=0.0.14
 pkgrel=1
@@ -16,7 +16,7 @@ depends=('glibc' 'gcc-libs' 'libxkbcommon' 'wayland' 'mesa' 'fontconfig' 'freety
 makedepends=('rust' 'cargo' 'just' 'git' 'clang' 'lld' 'pkgconf' 'mesa' 'wayland'
              'libxkbcommon' 'fontconfig' 'freetype2' 'expat')
 optdepends=('cosmic-panel: run as a COSMIC panel applet')
-source=("$pkgname::git+https://github.com/Lin-WMDE/start-menu.git#branch=master")
+source=("$pkgname::git+https://github.com/Lin-WMDE/wmde-start-menu.git#branch=master")
 sha256sums=('SKIP')
 
 pkgver() {
