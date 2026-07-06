@@ -141,17 +141,10 @@
   <screenshots>
     <screenshot type="default">
       <image>
-        https://raw.githubusercontent.com/championpeak87/cosmic-ext-classic-menu/refs/heads/master/screenshots/cosmic-ext-classic-menu-applet.png
+        https://raw.githubusercontent.com/Lin-WMDE/start-menu/master/screenshots/wmde-start-menu.png
       </image>
       <caption>Main menu screenshot</caption>
       <caption xml:lang="cs">Hlavní menu</caption>
-     </screenshot>
-     <screenshot type="default">
-      <image>
-        https://raw.githubusercontent.com/championpeak87/cosmic-ext-classic-menu/refs/heads/master/screenshots/cosmic-ext-classic-menu-settings.png
-      </image>
-      <caption>Applet settings</caption>
-      <caption xml:lang="cs">Nastavení appletu</caption>
      </screenshot>
   </screenshots>
   <provides>

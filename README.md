@@ -6,7 +6,7 @@ It is part of the [WMDE desktop](https://wmde.fun) and is a fork of
 [championpeak87/cosmic-ext-classic-menu](https://github.com/championpeak87/cosmic-ext-classic-menu),
 originally created by Kamil Lihan.
 
-![WMDE Start Menu Screenshot](screenshots/cosmic-ext-classic-menu-applet.png)
+![WMDE Start Menu Screenshot](screenshots/wmde-start-menu.png)
 
 ## Features
 
