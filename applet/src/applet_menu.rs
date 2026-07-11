@@ -78,7 +78,7 @@ impl AppletMenu {
         let settings_button: Element<'_, Message> = applet
             .available_applications
             .iter()
-            .find(|a| a.id == "com.system76.CosmicSettings")
+            .find(|a| a.id == "fun.wmde.Settings")
             .map(|app| -> Element<'_, Message> {
                 cosmic::widget::button::custom(
                     crate::widgets::virtualized_app_list::VirtualizedAppList::create_icon_widget(

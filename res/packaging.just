@@ -42,7 +42,7 @@ install:
     install -Dm0644 {{metainfo-src}} {{metainfo-dst}}
     install -Dm0644 {{icons-src}} {{icons-dst}}
     for icon in {{button-icons-src}}/*.svg; do \
-        install -Dm0644 "$icon" "{{base-dir}}/share/cosmic/{{APPID}}/applet-buttons/$(basename "$icon")"; \
+        install -Dm0644 "$icon" "{{base-dir}}/share/wmde/{{APPID}}/applet-buttons/$(basename "$icon")"; \
     done
 
 
@@ -53,7 +53,7 @@ uninstall:
     rm {{desktop-dst}}
     rm {{metainfo-dst}}
     rm {{icons-dst}}
-    rm -rf "{{base-dir}}/share/cosmic/{{APPID}}"
+    rm -rf "{{base-dir}}/share/wmde/{{APPID}}"
 
 
 # Installs files locally
@@ -65,7 +65,7 @@ install-local:
     install -Dm0644  ${XDG_DATA_HOME:-~/.local/share}/{{metainfo-path}}
     install -Dm0644  ${XDG_DATA_HOME:-~/.local/share}/{{icons-dst}}
     for icon in {{button-icons-src}}/*.svg; do \
-        install -Dm0644 "$icon" "{{base-dir}}/share/cosmic/{{APPID}}/applet-buttons/$(basename "$icon")"; \
+        install -Dm0644 "$icon" "{{base-dir}}/share/wmde/{{APPID}}/applet-buttons/$(basename "$icon")"; \
     done
 
 # Uninstalls locally installed files

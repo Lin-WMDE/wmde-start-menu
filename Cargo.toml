@@ -29,3 +29,10 @@ libcosmic = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde"
 cosmic-config = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
 cosmic-config-derive = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
 cosmic-theme = { git = "https://github.com/Lin-WMDE/libcosmic.git", branch = "wmde" }
+
+# libcosmic itself pulls cosmic-settings-config from pop-os for its own shortcuts
+# lookup; redirect that transitive copy to the WMDE fork too (A.6) so the whole
+# graph resolves a single cosmic-settings-config whose Shortcuts context flips to
+# fun.wmde.Settings.Shortcuts once the daemon rebrand lands.
+[patch."https://github.com/pop-os/cosmic-settings-daemon"]
+cosmic-settings-config = { path = "../wmde-settings-daemon/config" }

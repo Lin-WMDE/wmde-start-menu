@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, CosmicConfigEntry, Eq, PartialEq)]
 #[version = 1]
-#[id = "wmde-start-menu"]
+#[id = "fun.wmde.start-menu"]
 pub struct AppletConfig {
     pub app_menu_position: HorizontalPosition,
     pub search_field_position: VerticalPosition,
@@ -28,7 +28,7 @@ impl Default for AppletConfig {
             applet_button_style: AppletButtonStyle::default(),
             user_widget: UserWidgetStyle::default(),
             button_label: fl!("menu-label").to_owned(),
-            button_icon: format!("/usr/share/cosmic/{}/applet-buttons/default.svg", crate::applet::Applet::APP_ID).to_owned(),
+            button_icon: format!("/usr/share/wmde/{}/applet-buttons/default.svg", crate::applet::Applet::APP_ID).to_owned(),
             recent_applications: vec![],
         }
     }

@@ -584,9 +584,9 @@ impl Applet {
         }
 
         let app_exec = match action {
-            PowerAction::Logout => "cosmic-osd log-out",
-            PowerAction::Reboot => "cosmic-osd restart",
-            PowerAction::Shutdown => "cosmic-osd shutdown",
+            PowerAction::Logout => "wmde-osd log-out",
+            PowerAction::Reboot => "wmde-osd restart",
+            PowerAction::Shutdown => "wmde-osd shutdown",
             _ => "",
         };
         let (main_exec, args) = if is_flatpak {

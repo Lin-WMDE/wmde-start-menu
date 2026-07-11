@@ -946,7 +946,6 @@ dependencies = [
 [[package]]
 name = "cosmic-app-list-config"
 version = "1.0.15"
-source = "git+https://github.com/pop-os/cosmic-applets#d726dd890e0ff3530581766d35cd3824bcf1980d"
 dependencies = [
  "libcosmic",
  "serde",
@@ -1040,7 +1039,6 @@ dependencies = [
 [[package]]
 name = "cosmic-settings-config"
 version = "0.1.0"
-source = "git+https://github.com/pop-os/cosmic-settings-daemon#24ab5c28eb5876665752cd5e9405b7de17e2b99a"
 dependencies = [
  "cosmic-config",
  "ron 0.11.0",

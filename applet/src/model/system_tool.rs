@@ -10,7 +10,7 @@ impl SystemTool {
         exec: "wmde-start-menu-settings",
     };
     pub const SYSTEM_SETTINGS: SystemTool = Self {
-        exec: "cosmic-settings",
+        exec: "wmde-settings",
     };
     pub const SYSTEM_MONITOR: SystemTool = Self {
         exec: "gnome-system-monitor",

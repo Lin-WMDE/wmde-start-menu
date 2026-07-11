@@ -24,8 +24,11 @@ accounts-zbus = { git = "https://github.com/pop-os/dbus-settings-bindings" }
 notify = "*"
 simple_logger = { workspace = true }
 log = { workspace = true }
-cosmic-settings-config = { git = "https://github.com/pop-os/cosmic-settings-daemon" }
-cosmic-app-list-config = { git = "https://github.com/pop-os/cosmic-applets" }
+# WMDE fork sibling paths (A.6/C.10): consume the shared config crates from the
+# WMDE forks by their ORIGINAL crate names so their exported id consts (Shortcuts
+# context, AppList APP_ID) resolve to fun.wmde.* instead of the stale pop-os values.
+cosmic-settings-config = { path = "../../wmde-settings-daemon/config" }
+cosmic-app-list-config = { path = "../../wmde-applets/cosmic-app-list/cosmic-app-list-config" }
 unicode-normalization = "0.1.25"
 cached = "0.56.0"
 futures = "0.3"

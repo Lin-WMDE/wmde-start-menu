@@ -148,7 +148,7 @@
      </screenshot>
   </screenshots>
   <provides>
-    <id>com.system76.CosmicApplet</id>
+    <id>fun.wmde.Applet</id>
     <binary>wmde-start-menu-applet</binary>
     <binary>wmde-start-menu-settings</binary>
   </provides>
