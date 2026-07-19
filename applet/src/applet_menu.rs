@@ -61,7 +61,12 @@ impl AppletMenu {
         include_bytes!("../../res/icons/bundled/user-idle-symbolic.svg");
 
     pub fn view_main_menu_list(applet: &Applet) -> Element<'_, Message> {
-        let Spacing { space_xxs, .. } = theme::active().cosmic().spacing;
+        let Spacing {
+            space_xxs,
+            space_xs,
+            space_s,
+            ..
+        } = theme::active().cosmic().spacing;
 
         let current_user = AppletMenu::create_logged_user_widget(applet);
         let search_field = AppletMenu::create_search_field(applet);
@@ -98,7 +103,7 @@ impl AppletMenu {
         )
         .class(cosmic::theme::Container::Primary)
         .width(Length::Fill)
-        .padding([2, space_xxs]);
+        .padding([space_xs, space_s]);
 
         let dual_pane = match applet.config.app_menu_position {
             HorizontalPosition::Left => {
