@@ -89,8 +89,11 @@ pub enum HorizontalPosition {
 }
 
 impl Default for HorizontalPosition {
+    // WMDE: categories pane on the LEFT by default. In applet_menu.rs the `Right`
+    // arm renders `row![categories_pane, spacer, app_list]`, i.e. categories first
+    // (left), app list on the right.
     fn default() -> Self {
-        HorizontalPosition::Left
+        HorizontalPosition::Right
     }
 }
 
