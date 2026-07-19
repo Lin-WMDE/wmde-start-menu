@@ -88,16 +88,13 @@ impl AppletMenu {
         .class(cosmic::theme::Button::AppletMenu)
         .into();
 
+        // WMDE: the user widget moved to the footer, so search + gear fill the
+        // whole header width.
         let header = container(
-            row![
-                container(current_user).width(Length::FillPortion(3)),
-                cosmic::widget::Space::new().width(Length::Fixed(17.0)),
-                row![search_field, settings_button]
-                    .spacing(space_xxs as f32)
-                    .align_y(Alignment::Center)
-                    .width(Length::FillPortion(5)),
-            ]
-            .align_y(Alignment::Center),
+            row![search_field, settings_button]
+                .spacing(space_xxs as f32)
+                .align_y(Alignment::Center)
+                .width(Length::Fill),
         )
         .class(cosmic::theme::Container::Primary)
         .width(Length::Fill)
@@ -119,15 +116,18 @@ impl AppletMenu {
         let bottom_divider =
             cosmic::widget::divider::horizontal::default();
 
+        // WMDE: user (left) shares the footer row with the power buttons (right).
         let footer = container(
             row![
+                current_user,
                 cosmic::widget::Space::new().width(Length::Fill),
                 AppletMenu::create_power_menu(applet),
             ]
             .align_y(Alignment::Center),
         )
         .class(cosmic::theme::Container::Primary)
-        .width(Length::Fill);
+        .width(Length::Fill)
+        .padding([0, space_xxs]);
 
         let menu_layout =
             column![header, top_divider, dual_pane, bottom_divider, footer];
