@@ -63,7 +63,10 @@ pub enum AppletButtonStyle {
 
 impl Default for AppletButtonStyle {
     fn default() -> Self {
-        AppletButtonStyle::Auto
+        // WMDE: always show the start icon. Upstream's `Auto` swaps the icon for the text
+        // label on an XS/S panel - and WMDE ships a small panel by default, so the start
+        // button would read "Menu". Windows keeps its start icon at every taskbar size.
+        AppletButtonStyle::IconOnly
     }
 }
 
