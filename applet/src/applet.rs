@@ -41,7 +41,7 @@ pub const APP_ID: &str = "fun.wmde.start-menu";
 /// This is the struct that represents your application.
 /// It is used to define the data that will be used by your application.
 pub struct Applet {
-    /// Application state which is managed by the COSMIC runtime.
+    /// Application state which is managed by the libcosmic runtime.
     pub core: Core,
     /// The popup id.
     pub popup: Option<Id>,

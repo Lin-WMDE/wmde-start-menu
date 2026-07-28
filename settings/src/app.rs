@@ -18,7 +18,7 @@ use std::path::PathBuf;
 /// The application model stores app-specific state used to describe its interface and
 /// drive its logic.
 pub struct AppModel {
-    /// Application state which is managed by the COSMIC runtime.
+    /// Application state which is managed by the libcosmic runtime.
     core: cosmic::Core,
     /// The about page for this app.
     about: cosmic::widget::about::About,
@@ -58,7 +58,7 @@ fn write_applet_config(config: &AppletConfig) {
     }
 }
 
-/// Create a COSMIC application from the app model
+/// Create a libcosmic application from the app model
 impl cosmic::Application for AppModel {
     /// The async executor that will be used to run your application's commands.
     type Executor = cosmic::executor::Default;
