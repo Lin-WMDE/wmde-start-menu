@@ -1,4 +1,3 @@
-cosmic-applet-button = 코즈믹 버튼
 
 # 카테고리
 all-applications=모든 응용 프로그램

@@ -1,4 +1,3 @@
-cosmic-applet-button = 宇宙按钮
 
 # 类别
 all-applications=所有应用

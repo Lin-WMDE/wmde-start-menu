@@ -1,4 +1,3 @@
-cosmic-applet-button = Kosmische Taste
 
 # Kategorien
 all-applications=Alle Anwendungen

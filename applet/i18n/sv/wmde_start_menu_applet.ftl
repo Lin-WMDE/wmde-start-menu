@@ -1,4 +1,3 @@
-cosmic-applet-button = Kosmisk knapp
 
 # kategorier
 all-applications=Alla applikationer

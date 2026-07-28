@@ -1,4 +1,3 @@
-cosmic-applet-button = कॉस्मिक बटन
 
 # श्रेणियाँ
 all-applications=सभी एप्लिकेशन

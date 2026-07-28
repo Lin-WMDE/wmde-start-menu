@@ -1,4 +1,3 @@
-cosmic-applet-button = Космическая кнопка
 
 # категории
 all-applications=Все приложения

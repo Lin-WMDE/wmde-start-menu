@@ -1,4 +1,3 @@
-cosmic-applet-button = Kozmikus gomb
 
 # kategóriák
 all-applications=Minden alkalmazás

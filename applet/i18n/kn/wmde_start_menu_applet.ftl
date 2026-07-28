@@ -1,4 +1,3 @@
-cosmic-applet-button = ಕಾಸ್ಮಿಕ್ ಬಟನ್
 
 # ವರ್ಗಗಳು
 all-applications=ಎಲ್ಲಾ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು

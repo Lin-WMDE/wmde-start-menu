@@ -1,4 +1,3 @@
-cosmic-applet-button = زر كوني
 
 # الفئات
 all-applications=جميع التطبيقات

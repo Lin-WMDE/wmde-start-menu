@@ -1,4 +1,3 @@
-cosmic-applet-button = Космичко дугме
 
 # категорије
 all-applications=Све апликације

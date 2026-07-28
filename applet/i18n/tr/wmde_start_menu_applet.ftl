@@ -1,4 +1,3 @@
-cosmic-applet-button = Kozmik Düğme
 
 # kategoriler
 all-applications=Tüm uygulamalar

@@ -1,4 +1,3 @@
-cosmic-applet-button  =  Cosmic Button
 
 # categories
 all-applications = Všetky aplikácie

@@ -1,4 +1,3 @@
-cosmic-applet-button = Pulsante Cosmico
 
 # categorie
 all-applications=Tutte le applicazioni

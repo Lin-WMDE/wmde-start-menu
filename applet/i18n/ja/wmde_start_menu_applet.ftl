@@ -1,4 +1,3 @@
-cosmic-applet-button = コズミックボタン
 
 # カテゴリ
 all-applications=すべてのアプリケーション

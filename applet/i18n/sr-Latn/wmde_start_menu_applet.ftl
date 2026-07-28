@@ -1,4 +1,3 @@
-cosmic-applet-button = Kosmičko dugme
 
 # kategorije
 all-applications=Sve aplikacije

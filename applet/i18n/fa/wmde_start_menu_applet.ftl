@@ -1,4 +1,3 @@
-cosmic-applet-button = دکمه کیهانی
 
 # دسته‌ها
 all-applications=تمام برنامه‌ها
