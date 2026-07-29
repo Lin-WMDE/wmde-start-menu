@@ -17,7 +17,6 @@
   <summary xml:lang="de">Ein Starter-Applet für den WMDE Desktop</summary>
   <summary xml:lang="fr">Une applette de lancement pour le bureau WMDE</summary>
   <summary xml:lang="es">Un applet de lanzador para el Escritorio WMDE</summary>
-  <summary xml:lang="ru">Апплет запуска для рабочего стола WMDE</summary>
   <summary xml:lang="ja">WMDE デスクトップ用のランチャーアプレット</summary>
   <summary xml:lang="hu">Indító applet a WMDE asztali környezethez</summary>
   <summary xml:lang="pl">Aplet uruchamiający dla pulpitu WMDE</summary>
@@ -28,7 +27,6 @@
     <p xml:lang="de">WMDE Start Menu ist ein Starter-Applet für die WMDE Desktop-Umgebung und bietet schnellen Zugriff auf Anwendungen, Systemfunktionen und Einstellungen. Funktionen:</p>
     <p xml:lang="fr">WMDE Start Menu est un applet de lancement pour l'environnement WMDE Desktop, offrant un accès rapide aux applications, fonctions système et paramètres. Fonctionnalités :</p>
     <p xml:lang="es">WMDE Start Menu es un applet lanzador para el entorno WMDE Desktop, que proporciona acceso rápido a aplicaciones, funciones del sistema y configuraciones. Características:</p>
-    <p xml:lang="ru">WMDE Start Menu — это апплет-лаунчер для среды WMDE Desktop, обеспечивающий быстрый доступ к приложениям, системным функциям и настройкам. Возможности:</p>
     <p xml:lang="ja">WMDE Start MenuはWMDE Desktop環境向けのランチャーアプレットで、アプリケーション、システム機能、設定への迅速なアクセスを提供します。主な機能：</p>
     <p xml:lang="hu">A WMDE Start Menu egy indító kisalkalmazás a WMDE asztali környezethez, amely gyors hozzáférést biztosít az alkalmazásokhoz, rendszerfunkciókhoz és beállításokhoz. Jellemzők:</p>
     <p xml:lang="pl">WMDE Start Menu to aplet uruchamiający dla środowiska WMDE Desktop, zapewniający szybki dostęp do aplikacji, funkcji systemowych i ustawień. Funkcje:</p>
@@ -78,15 +76,6 @@
       <li xml:lang="es">Soporte multilingüe (localización)</li>
       <li xml:lang="es">Diseño moderno y compatibilidad con temas</li>
     </ul>
-    <ul xml:lang="ru">
-      <li xml:lang="ru">Просмотр и запуск установленных приложений через удобное меню</li>
-      <li xml:lang="ru">Поиск приложений по названию или категории</li>
-      <li xml:lang="ru">Настройка внешнего вида кнопки (иконка, подпись, комбинация, авто)</li>
-      <li xml:lang="ru">Быстрый доступ к недавно использованным приложениям</li>
-      <li xml:lang="ru">Изменение положения меню и поля поиска</li>
-      <li xml:lang="ru">Многоязычная поддержка (локализация)</li>
-      <li xml:lang="ru">Современный дизайн и совместимость с темами</li>
-    </ul>
     <ul xml:lang="ja">
       <li xml:lang="ja">分かりやすいメニューでインストール済みアプリを閲覧・起動</li>
       <li xml:lang="ja">名前やカテゴリでアプリを検索</li>
@@ -128,7 +117,6 @@
     <p xml:lang="de">Ideal für Nutzer, die Anwendungen schnell starten, das Menü anpassen oder einen Überblick über häufig genutzte Programme haben möchten. Perfekt für WMDE Desktop.</p>
     <p xml:lang="fr">Idéal pour les utilisateurs souhaitant lancer rapidement des applications, personnaliser le menu ou avoir un aperçu des programmes fréquemment utilisés. Parfait pour WMDE Desktop.</p>
     <p xml:lang="es">Ideal para usuarios que desean lanzar aplicaciones rápidamente, personalizar el menú o tener una visión general de los programas más utilizados. Perfecto para WMDE Desktop.</p>
-    <p xml:lang="ru">Идеально подходит для пользователей, которым нужен быстрый запуск приложений, настройка меню или обзор часто используемых программ. Отлично подходит для WMDE Desktop.</p>
     <p xml:lang="ja">アプリの素早い起動やメニューのカスタマイズ、よく使うプログラムの一覧が欲しいユーザーに最適です。WMDE Desktopに最適ですが、単体ランチャーとしても利用可能です。</p>
     <p xml:lang="hu">Ideális azoknak a felhasználóknak, akik gyors alkalmazásindítást, menü testreszabást vagy áttekintést szeretnének a gyakran használt programokról. Tökéletes a WMDE Desktophoz.</p>
     <p xml:lang="pl">Idealny dla użytkowników, którzy chcą szybkiego uruchamiania aplikacji, dostosowania menu lub przeglądu często używanych programów. Doskonały dla WMDE Desktop.</p>
