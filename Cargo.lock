@@ -6591,7 +6591,6 @@ dependencies = [
  "i18n-embed-fl",
  "libcosmic",
  "log",
- "open",
  "rust-embed",
  "simple_logger",
  "tokio",

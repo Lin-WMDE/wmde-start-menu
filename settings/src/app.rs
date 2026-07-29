@@ -35,12 +35,12 @@ pub struct AppModel {
 pub enum Message {
     UpdateConfig(AppletConfig),
     ResetToDefaults,
-    LaunchUrl(String),
     AppPositionChanged(HorizontalPosition),
     AppletButtonStyleChanged(usize),
     UserWidgetChanged(usize),
     ButtonLabelChanged(String),
     ToggleContextPage(ContextPage),
+    OpenAbout,
     OpenIconPicker,
     ButtonIconChanged(PathBuf),
     CustomIconSelected,
@@ -230,12 +230,6 @@ impl cosmic::Application for AppModel {
         }
 
         Some(match self.context_page {
-            ContextPage::About => context_drawer::about(
-                &self.about,
-                |url| Message::LaunchUrl(url.to_string()),
-                Message::ToggleContextPage(ContextPage::About),
-            )
-            .title(fl!("about")),
             ContextPage::IconPicker => context_drawer::context_drawer(
                 self.icon_picker(), // 3. Show icon picker
                 Message::ToggleContextPage(ContextPage::IconPicker),
@@ -264,15 +258,6 @@ impl cosmic::Application for AppModel {
                 self.config.recent_applications = recents;
                 write_applet_config(&self.config);
 
-                Task::none()
-            }
-            Message::LaunchUrl(url) => {
-                match open::that_detached(&url) {
-                    Ok(()) => {}
-                    Err(err) => {
-                        log::error!("failed to open {url:?}: {err}");
-                    }
-                }
                 Task::none()
             }
             Message::AppPositionChanged(horizontal_position) => {
@@ -335,6 +320,7 @@ impl cosmic::Application for AppModel {
 
                 Task::none()
             }
+            Message::OpenAbout => self.open_about(self.about.clone()),
             Message::ToggleContextPage(context_page) => {
                 if self.context_page == context_page {
                     // Close the context drawer if the toggled context page is the same.
@@ -576,7 +562,7 @@ impl menu::action::MenuAction for MenuAction {
 
     fn message(&self) -> Self::Message {
         match self {
-            MenuAction::About => Message::ToggleContextPage(ContextPage::About),
+            MenuAction::About => Message::OpenAbout,
             MenuAction::SetDefaultSettings => Message::ResetToDefaults,
         }
     }
@@ -586,6 +572,5 @@ impl menu::action::MenuAction for MenuAction {
 #[derive(Copy, Clone, Debug, Default, Eq, PartialEq)]
 pub enum ContextPage {
     #[default]
-    About,
     IconPicker, // 1. Add new variant
 }

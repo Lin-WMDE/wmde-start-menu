@@ -15,7 +15,6 @@ walkdir = "2.3.2"
 [dependencies]
 futures-util = "0.3.31"
 i18n-embed-fl = { workspace = true }
-open = { workspace = true }
 rust-embed = { workspace = true }
 tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
 wmde-start-menu-applet = { path = "../applet" }
