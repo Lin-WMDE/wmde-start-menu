@@ -19,6 +19,12 @@ metainfo-src := 'res' / metainfo
 metainfo-path := 'share' / 'metainfo' / metainfo
 metainfo-dst := base-dir / metainfo-path
 
+# Settings builds this applet's page from here; the path is the contract, not the file.
+schema := APPID + '.ron'
+schema-src := 'res' / 'applet-settings' / schema
+schema-path := 'share' / 'wmde' / 'applet-settings' / schema
+schema-dst := base-dir / schema-path
+
 icons := APPID + '.svg'
 icons-src := 'res' / 'icons' / 'hicolor' / 'scalable' / 'apps' / icons
 icons-path := 'share' / 'icons' / 'hicolor' / 'scalable' / 'apps' / icons
@@ -42,6 +48,7 @@ install:
     install -Dm0644 {{desktop-src}} {{desktop-dst}}
     install -Dm0644 {{metainfo-src}} {{metainfo-dst}}
     install -Dm0644 {{icons-src}} {{icons-dst}}
+    install -Dm0644 {{schema-src}} {{schema-dst}}
     for icon in {{button-icons-src}}/*.svg; do \
         install -Dm0644 "$icon" "{{base-dir}}/share/wmde/{{APPID}}/applet-buttons/$(basename "$icon")"; \
     done
@@ -54,6 +61,7 @@ uninstall:
     rm {{desktop-dst}}
     rm {{metainfo-dst}}
     rm {{icons-dst}}
+    rm {{schema-dst}}
     rm -rf "{{base-dir}}/share/wmde/{{APPID}}"
 
 
@@ -65,6 +73,7 @@ install-local:
     install -Dm0644 {{desktop-src}} ${XDG_DATA_HOME:-~/.local/share}/applications/{{desktop}}
     install -Dm0644 {{metainfo-src}} ${XDG_DATA_HOME:-~/.local/share}/metainfo/{{metainfo}}
     install -Dm0644 {{icons-src}} ${XDG_DATA_HOME:-~/.local/share}/icons/hicolor/scalable/apps/{{icons}}
+    install -Dm0644 {{schema-src}} ${XDG_DATA_HOME:-~/.local/share}/wmde/applet-settings/{{schema}}
     for icon in {{button-icons-src}}/*.svg; do \
         install -Dm0644 "$icon" "${XDG_DATA_HOME:-~/.local/share}/wmde/{{APPID}}/applet-buttons/$(basename "$icon")"; \
     done
@@ -76,6 +85,7 @@ uninstall-local:
     rm ${XDG_DATA_HOME:-~/.local/share}/applications/{{desktop}}
     rm ${XDG_DATA_HOME:-~/.local/share}/metainfo/{{metainfo}}
     rm ${XDG_DATA_HOME:-~/.local/share}/icons/hicolor/scalable/apps/{{icons}}
+    rm ${XDG_DATA_HOME:-~/.local/share}/wmde/applet-settings/{{schema}}
     rm -rf "${XDG_DATA_HOME:-~/.local/share}/wmde/{{APPID}}"
 
 

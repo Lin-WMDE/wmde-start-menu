@@ -1,0 +1,63 @@
+// WMDE applet settings schema. See .doc/settings/08-applet-schemas.md in the WMDE tree.
+//
+// This package is not part of wmde-applets and Settings knows nothing about it: the file
+// below is the whole of the integration.
+(
+    schema: 1,
+    config: (id: "fun.wmde.start-menu", version: 1),
+    groups: [
+        (
+            title: { "": "Panel button", "uk": "Кнопка на панелі" },
+            rows: [
+                Setting(
+                    key: "applet_button_style",
+                    label: { "": "Button shows", "uk": "Кнопка показує" },
+                    control: Choice(items: [
+                        (value: "Auto",         label: { "": "Whatever fits",  "uk": "Що вміститься" }),
+                        (value: "IconOnly",     label: { "": "Icon only",      "uk": "Лише значок" }),
+                        (value: "LabelOnly",    label: { "": "Label only",     "uk": "Лише напис" }),
+                        (value: "IconAndLabel", label: { "": "Icon and label", "uk": "Значок і напис" }),
+                    ]),
+                    default: "Auto",
+                ),
+                Setting(
+                    key: "button_label",
+                    label: { "": "Label", "uk": "Напис" },
+                    control: Text(max_len: 32),
+                ),
+                External(
+                    exec: "wmde-start-menu-settings",
+                    label: { "": "Choose the button icon", "uk": "Вибрати значок кнопки" },
+                ),
+            ],
+        ),
+        (
+            title: { "": "Menu", "uk": "Меню" },
+            rows: [
+                Setting(
+                    key: "app_menu_position",
+                    label: { "": "Categories pane", "uk": "Панель категорій" },
+                    control: Choice(items: [
+                        (value: "Left",  label: { "": "On the left",  "uk": "Ліворуч" }),
+                        (value: "Right", label: { "": "On the right", "uk": "Праворуч" }),
+                    ]),
+                    default: "Left",
+                ),
+                Setting(
+                    key: "user_widget",
+                    label: { "": "Show the user as", "uk": "Показувати користувача як" },
+                    control: Choice(items: [
+                        (value: "UsernamePrefered", label: { "": "Account name", "uk": "Імʼя облікового запису" }),
+                        (value: "RealNamePrefered", label: { "": "Full name",    "uk": "Повне імʼя" }),
+                        (value: "None",             label: { "": "Do not show",  "uk": "Не показувати" }),
+                    ]),
+                    default: "UsernamePrefered",
+                ),
+                Note(text: {
+                    "": "Recently used applications are collected automatically.",
+                    "uk": "Нещодавно вживані застосунки збираються самі.",
+                }),
+            ],
+        ),
+    ],
+)
