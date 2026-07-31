@@ -24,20 +24,6 @@ cosmic-config = { path = "../libcosmic/cosmic-config" }
 cosmic-config-derive = { path = "../libcosmic/cosmic-config-derive" }
 cosmic-theme = { path = "../libcosmic/cosmic-theme" }
 
-[patch."https://github.com/pop-os/libcosmic.git"]
-libcosmic = { path = "../libcosmic" }
-cosmic-config = { path = "../libcosmic/cosmic-config" }
-cosmic-config-derive = { path = "../libcosmic/cosmic-config-derive" }
-cosmic-theme = { path = "../libcosmic/cosmic-theme" }
-
-[patch."https://github.com/pop-os/libcosmic/"]
-cosmic-config = { path = "../libcosmic/cosmic-config" }
-cosmic-theme = { path = "../libcosmic/cosmic-theme" }
-
-# libcosmic itself pulls cosmic-settings-config from pop-os for its own shortcuts
-# lookup; redirect that transitive copy to the WMDE fork too (A.6) so the whole
-# graph resolves a single cosmic-settings-config whose Shortcuts context flips to
-# fun.wmde.Settings.Shortcuts once the daemon rebrand lands.
 [patch."https://github.com/pop-os/cosmic-settings-daemon"]
 cosmic-settings-config = { path = "../wmde-settings-daemon/config" }
 
