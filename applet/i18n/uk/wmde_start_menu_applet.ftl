@@ -23,6 +23,13 @@ disks-label=Диски
 search-placeholder=Введіть для пошуку програм
 no-apps=Програми не знайдено
 
+# меню живлення
+log-out=Вийти
+suspend=Призупинити
+lock-screen=Заблокувати екран
+restart=Перезавантажити
+shutdown=Вимкнути
+
 # кнопка аплета
 menu-label=Меню
 

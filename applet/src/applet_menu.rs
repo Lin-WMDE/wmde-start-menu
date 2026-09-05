@@ -81,16 +81,21 @@ impl AppletMenu {
 
         // WMDE: static gear that always opens WMDE Settings, independent of the
         // (search/category filtered) application list.
-        let settings_button: Element<'_, Message> = cosmic::widget::button::custom(
-            cosmic::widget::icon::icon(
-                cosmic::widget::icon::from_name("preferences-system-symbolic")
-                    .size(24)
-                    .handle(),
+        let settings_button: Element<'_, Message> = cosmic::widget::tooltip(
+            cosmic::widget::button::custom(
+                cosmic::widget::icon::icon(
+                    cosmic::widget::icon::from_name("preferences-system-symbolic")
+                        .size(24)
+                        .handle(),
+                )
+                .size(24),
             )
-            .size(24),
+            .on_press(Message::LaunchTool(SystemTool::SYSTEM_SETTINGS))
+            .class(cosmic::theme::Button::AppletMenu),
+            text::body(fl!("settings-label")),
+            // The gear sits in the header strip, so the tooltip goes below it.
+            cosmic::widget::tooltip::Position::Bottom,
         )
-        .on_press(Message::LaunchTool(SystemTool::SYSTEM_SETTINGS))
-        .class(cosmic::theme::Button::AppletMenu)
         .into();
 
         // WMDE: the user widget moved to the footer, so search + gear fill the
@@ -156,28 +161,49 @@ impl AppletMenu {
     }
 
     fn create_power_menu(_applet: &Applet) -> Element<'_, Message> {
+        // The row sits at the very bottom of the popup, so every tooltip goes above.
         container(
             row![
-                cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
-                    AppletMenu::SYSTEM_LOGOUT_SYMBOLIC_ICON,
-                ).symbolic(true))
-                .on_press(Message::PowerOptionSelected(PowerAction::Logout)),
-                cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
-                    AppletMenu::SYSTEM_SUSPEND_SYMBOLIC_ICON,
-                ).symbolic(true))
-                .on_press(Message::PowerOptionSelected(PowerAction::Suspend)),
-                cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
-                    AppletMenu::SYSTEM_LOCKSCREEN_SYMBOLIC_ICON,
-                ).symbolic(true))
-                .on_press(Message::PowerOptionSelected(PowerAction::Lock)),
-                cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
-                    AppletMenu::SYSTEM_REBOOT_SYMBOLIC_ICON,
-                ).symbolic(true))
-                .on_press(Message::PowerOptionSelected(PowerAction::Reboot)),
-                cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
-                    AppletMenu::SYSTEM_SHUTDOWN_SYMBOLIC_ICON,
-                ).symbolic(true))
-                .on_press(Message::PowerOptionSelected(PowerAction::Shutdown)),
+                cosmic::widget::tooltip(
+                    cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
+                        AppletMenu::SYSTEM_LOGOUT_SYMBOLIC_ICON,
+                    ).symbolic(true))
+                    .on_press(Message::PowerOptionSelected(PowerAction::Logout)),
+                    text::body(fl!("log-out")),
+                    cosmic::widget::tooltip::Position::Top,
+                ),
+                cosmic::widget::tooltip(
+                    cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
+                        AppletMenu::SYSTEM_SUSPEND_SYMBOLIC_ICON,
+                    ).symbolic(true))
+                    .on_press(Message::PowerOptionSelected(PowerAction::Suspend)),
+                    text::body(fl!("suspend")),
+                    cosmic::widget::tooltip::Position::Top,
+                ),
+                cosmic::widget::tooltip(
+                    cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
+                        AppletMenu::SYSTEM_LOCKSCREEN_SYMBOLIC_ICON,
+                    ).symbolic(true))
+                    .on_press(Message::PowerOptionSelected(PowerAction::Lock)),
+                    text::body(fl!("lock-screen")),
+                    cosmic::widget::tooltip::Position::Top,
+                ),
+                cosmic::widget::tooltip(
+                    cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
+                        AppletMenu::SYSTEM_REBOOT_SYMBOLIC_ICON,
+                    ).symbolic(true))
+                    .on_press(Message::PowerOptionSelected(PowerAction::Reboot)),
+                    text::body(fl!("restart")),
+                    cosmic::widget::tooltip::Position::Top,
+                ),
+                cosmic::widget::tooltip(
+                    cosmic::widget::button::icon(cosmic::widget::icon::from_svg_bytes(
+                        AppletMenu::SYSTEM_SHUTDOWN_SYMBOLIC_ICON,
+                    ).symbolic(true))
+                    .on_press(Message::PowerOptionSelected(PowerAction::Shutdown)),
+                    text::body(fl!("shutdown")),
+                    cosmic::widget::tooltip::Position::Top,
+                ),
             ]
             .align_y(Alignment::Center),
         )

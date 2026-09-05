@@ -35,16 +35,29 @@ impl AppletButton {
             cosmic::widget::icon::from_svg_bytes(BUTTON_DEFAULT_ICON)
         };
 
-        mouse_area(
-            applet
-                .core
-                .applet
-                .icon_button_from_handle(icon_handle)
-                .on_press(Message::TogglePopup(PopupType::MainMenu)),
-        )
-        .interaction(Interaction::Idle)
-        .on_right_press(Message::TogglePopup(PopupType::ContextMenu))
-        .into()
+        // WMDE: a bare icon on the panel needs a label. A plain widget::tooltip is
+        // drawn wrong on a panel surface, so this goes through applet_tooltip, which
+        // puts the label on its own popup and picks the side from the panel anchor.
+        // has_popup suppresses it while the menu itself is open.
+        applet
+            .core
+            .applet
+            .applet_tooltip(
+                mouse_area(
+                    applet
+                        .core
+                        .applet
+                        .icon_button_from_handle(icon_handle)
+                        .on_press(Message::TogglePopup(PopupType::MainMenu)),
+                )
+                .interaction(Interaction::Idle)
+                .on_right_press(Message::TogglePopup(PopupType::ContextMenu)),
+                applet.config.button_label.clone(),
+                applet.popup.is_some(),
+                Message::Surface,
+                None,
+            )
+            .into()
     }
 
     /// Creates a view for the applet button with only a label.

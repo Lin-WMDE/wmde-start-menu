@@ -22,6 +22,13 @@ disks-label=Disks
 search-placeholder=Search apps
 no-apps=No applications found
 
+# power menu
+log-out=Log Out
+suspend=Suspend
+lock-screen=Lock Screen
+restart=Restart
+shutdown=Shutdown
+
 # applet button
 menu-label=Menu
 
