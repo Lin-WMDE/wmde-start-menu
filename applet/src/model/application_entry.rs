@@ -17,6 +17,8 @@ pub struct ApplicationEntry {
     pub id: String,
     pub icon: Option<IconHandle>,
     pub comment: Option<String>,
+    // WMDE: searched as well - our own apps carry the brand only in Keywords.
+    pub keywords: Vec<String>,
     pub exec: Option<String>,
     pub category: Vec<String>,
     pub is_terminal: bool,
@@ -34,6 +36,7 @@ impl From<DesktopEntryData> for ApplicationEntry {
     fn from(app: DesktopEntryData) -> ApplicationEntry {
         ApplicationEntry {
             comment: get_comment(&app),
+            keywords: get_keywords(&app),
             is_terminal: get_is_terminal(&app),
             generic_name: get_generic_name(&app),
             id: app.id,
@@ -130,6 +133,28 @@ fn get_comment(app: &DesktopEntryData) -> Option<String> {
     }
 
     None
+}
+
+// WMDE: the localized Keywords, or the plain ones when the entry has none for the locale.
+fn get_keywords(app: &DesktopEntryData) -> Vec<String> {
+    if let Some(path) = &app.path {
+        let locale = std::env::var("LANG")
+            .ok()
+            .and_then(|l| l.split(".").next().map(str::to_string));
+        let desktop_entry = DesktopEntry::from_path(path, Some(locale.as_slice()));
+
+        if let Ok(entry) = desktop_entry {
+            return entry
+                .keywords(locale.as_slice())
+                .unwrap_or_default()
+                .into_iter()
+                .filter(|keyword| !keyword.is_empty())
+                .map(|keyword| keyword.into_owned())
+                .collect();
+        }
+    }
+
+    Vec::new()
 }
 
 fn get_is_terminal(app: &DesktopEntryData) -> bool {

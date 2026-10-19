@@ -41,9 +41,15 @@ pub fn load_apps() -> Vec<Arc<ApplicationEntry>> {
 }
 
 /// Strip diacritics (accents) from a string using NFD decomposition
+///
+/// WMDE: also folds case and the apostrophe. The fuzzy matcher folds ASCII case only, so
+/// Cyrillic never matched across case ("монітор" missed "Монітор"), and the ua layout types an
+/// ASCII apostrophe where our Ukrainian strings carry U+02BC.
 fn strip_diacritics(s: &str) -> String {
     s.nfd()
         .filter(|c| !is_combining_mark(*c))
+        .flat_map(char::to_lowercase)
+        .map(|c| if c == '\'' || c == '\u{2019}' { '\u{2BC}' } else { c })
         .collect()
 }
 
@@ -82,8 +88,20 @@ pub fn load_filtered_apps(filter: String) -> Vec<Arc<ApplicationEntry>> {
                 .and_then(|d| matcher.fuzzy_match(d, &normalized_filter))
                 .map(|x| x - 5); // penalize comment by 5
 
+            // WMDE: match each keyword on its own, so a match never spans two of them, and
+            // weigh them like the comment
+            let keywords_score = app
+                .keywords
+                .iter()
+                .filter_map(|k| matcher.fuzzy_match(&strip_diacritics(k), &normalized_filter))
+                .max()
+                .map(|x| x - 5);
+
             // Take the best score from all fields
-            let final_score = name_score.max(comment_score).max(generic_name_score);
+            let final_score = name_score
+                .max(comment_score)
+                .max(generic_name_score)
+                .max(keywords_score);
 
             final_score.map(|score| (score, app))
         })
@@ -212,4 +230,17 @@ pub fn desktop_files() -> cosmic::iced::Subscription<Event> {
 
 pub fn is_app_in_favorites(app: &ApplicationEntry, config: &AppListConfig) -> bool {
     config.favorites.iter().any(|app_id| app.id.eq(app_id))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::strip_diacritics;
+
+    #[test]
+    fn search_folds_cyrillic_case_and_the_apostrophe() {
+        assert_eq!(strip_diacritics("Монітор"), strip_diacritics("монітор"));
+        assert_eq!(strip_diacritics("Памʼять"), strip_diacritics("пам'ять"));
+        assert_eq!(strip_diacritics("Пам’ять"), strip_diacritics("пам'ять"));
+        assert_eq!(strip_diacritics("WMDE"), "wmde");
+    }
 }
