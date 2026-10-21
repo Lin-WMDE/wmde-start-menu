@@ -667,24 +667,20 @@ impl Applet {
     }
 
     fn update_recent_applications(&mut self, app: Arc<ApplicationEntry>) {
-        let current_recent_application = self
-            .config
-            .recent_applications
-            .iter_mut()
-            .find(|x| x.app_id == app.id);
-        if let Some(recent_app) = current_recent_application {
-            if recent_app.launch_count < u32::MAX {
-                recent_app.launch_count += 1;
-            }
+        let mut recent_applications = self.config.recent_applications.clone();
+        if let Some(recent_app) = recent_applications.iter_mut().find(|x| x.app_id == app.id) {
+            recent_app.launch_count = recent_app.launch_count.saturating_add(1);
         } else {
-            self.config.recent_applications.push(RecentApplication {
+            recent_applications.push(RecentApplication {
                 app_id: app.id.clone(),
                 launch_count: 1,
             });
         }
 
+        // Write only this key, so settings changed meanwhile on the settings page are not
+        // overwritten with this applet's copy of the config.
         if let Some(handler) = AppletConfig::config_handler().as_ref() {
-            if let Err(err) = self.config.write_entry(handler) {
+            if let Err(err) = self.config.set_recent_applications(handler, recent_applications) {
                 log::error!("failed to write recent applications config: {err}");
             }
         } else {
