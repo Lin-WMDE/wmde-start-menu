@@ -33,6 +33,7 @@ unicode-normalization = "0.1.25"
 cached = "0.56.0"
 futures = "0.3"
 i18n-embed = { workspace = true, features = ["fluent-system", "desktop-requester"] }
+roxmltree = "0.20"
 
 [dependencies.libcosmic]
 path = "../../libcosmic"

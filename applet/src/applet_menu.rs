@@ -12,6 +12,7 @@ use cosmic::{Element, theme};
 
 use crate::applet::{Applet, Message};
 use crate::config::HorizontalPosition;
+use crate::model::application_category::CategoryIcon;
 use crate::model::system_tool::SystemTool;
 use crate::fl;
 use crate::model::power_action::PowerAction;
@@ -229,6 +230,20 @@ impl AppletMenu {
         VirtualizedAppList::view(applet)
     }
 
+    fn create_category_icon(category_icon: &CategoryIcon) -> Element<'_, Message> {
+        use cosmic::widget::icon;
+
+        match category_icon {
+            CategoryIcon::Bundled(bytes) => icon::from_svg_bytes(bytes.clone()).symbolic(true).icon(),
+            CategoryIcon::Named(name) => icon::from_name(name.as_str())
+                .size(16)
+                .fallback(Some(icon::IconFallback::Names(vec!["folder-symbolic".into()])))
+                .icon(),
+            CategoryIcon::Path(path) => icon::icon(icon::from_path(path.clone())).size(16),
+        }
+        .into()
+    }
+
     fn create_categories_pane(applet: &Applet) -> Element<'_, Message> {
         let mut buttons: Vec<Element<Message>> = applet
             .available_categories
@@ -236,12 +251,8 @@ impl AppletMenu {
             .map(|category| {
                 cosmic::widget::button::custom(
                     row![
-                        container(
-                            cosmic::widget::icon::from_svg_bytes(category.icon_svg_bytes)
-                                .symbolic(true)
-                                .icon()
-                        )
-                        .padding([0, 6]),
+                        container(AppletMenu::create_category_icon(&category.icon))
+                            .padding([0, 6]),
                         text(category.get_display_name()),
                     ]
                     .align_y(Alignment::Center),
