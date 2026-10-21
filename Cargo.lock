@@ -6604,6 +6604,7 @@ dependencies = [
  "fuzzy-matcher",
  "i18n-embed",
  "i18n-embed-fl",
+ "iced_accessibility",
  "libcosmic",
  "log",
  "logind-zbus",
