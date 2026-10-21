@@ -33,6 +33,11 @@ unicode-normalization = "0.1.25"
 cached = "0.56.0"
 futures = "0.3"
 i18n-embed = { workspace = true, features = ["fluent-system", "desktop-requester"] }
+roxmltree = "0.20"
+# Only for the accessibility tree type in custom widgets. A path dependency, not upstream's
+# git one: the root [patch] does not cover iced_accessibility, and the git source would pull
+# a second libcosmic from GitHub into the graph.
+iced_accessibility = { path = "../../libcosmic/iced/accessibility" }
 
 [dependencies.libcosmic]
 path = "../../libcosmic"

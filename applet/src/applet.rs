@@ -65,12 +65,18 @@ pub struct Applet {
     pub scrollable_id: cosmic::widget::Id,
     /// List of pinned apps
     pub app_list_config: AppListConfig,
-    /// Cached context menus for applications (built once when apps are loaded)
-    pub context_menus: std::collections::HashMap<String, Vec<cosmic::widget::menu::Tree<Message>>>,
+    /// Context menu of `context_menu_target`, built when it is right clicked.
+    pub context_menu: Option<Vec<cosmic::widget::menu::Tree<Message>>>,
     /// Scroll offset for virtualization (pixels from top)
     pub scroll_offset: f32,
     /// Viewport height for virtualization and selection scroll behavior.
     pub scroll_viewport_height: f32,
+    /// Index of the app in `available_applications` whose context menu is
+    /// shown on right click.
+    pub context_menu_target: Option<usize>,
+    /// Whether an app claimed the current right click, see
+    /// [`Message::ContextMenuRightPress`].
+    context_menu_target_claimed: bool,
 }
 
 /// This is the enum that contains all the possible variants that your application will need to transmit messages.
@@ -104,6 +110,10 @@ pub enum Message {
     LaunchApplicationWithActionAt(usize, usize),
     PinToAppTrayIndex(usize, bool),
     ScrollUpdated(Viewport),
+    /// Right press on an app, sent before [`Message::ContextMenuRightPress`].
+    ContextMenuTarget(usize),
+    /// Right press anywhere in the app view.
+    ContextMenuRightPress,
 }
 
 /// Implement the `Application` trait for your application.
@@ -149,9 +159,11 @@ impl Application for Applet {
             available_applications: Vec::new(),
             available_categories: Vec::new(),
             popup: None,
-            context_menus: std::collections::HashMap::new(),
+            context_menu: None,
             scroll_offset: 0.0,
             scroll_viewport_height: 0.0,
+            context_menu_target: None,
+            context_menu_target_claimed: false,
         };
 
         // fetch current user asynchronously
@@ -267,58 +279,9 @@ impl Application for Applet {
                 // The list changed under the selection; a stale index must not survive.
                 self.selected_item_index = None;
 
-                // Build and cache context menus for each application once
-                self.context_menus.clear();
-                for (app_index, app) in self.available_applications.iter().enumerate() {
-                    let is_app_in_favorites =
-                        crate::logic::apps::is_app_in_favorites(app, &self.app_list_config);
-
-                    let mut context_menu_buttons: Vec<
-                        cosmic::widget::menu::Item<crate::applet_menu::ContextMenuAction, _>,
-                    > = vec![
-                        cosmic::widget::menu::Item::Button(
-                            crate::fl!("launch"),
-                            None,
-                            crate::applet_menu::ContextMenuAction::LaunchApplication(app_index),
-                        ),
-                        cosmic::widget::menu::Item::CheckBox(
-                            crate::fl!("pin-to-panel"),
-                            None,
-                            is_app_in_favorites,
-                            crate::applet_menu::ContextMenuAction::PinToPanel(
-                                app_index,
-                                is_app_in_favorites,
-                            ),
-                        ),
-                    ];
-
-                    let additional_options_buttons: Vec<
-                        cosmic::widget::menu::Item<crate::applet_menu::ContextMenuAction, _>,
-                    > =
-                        app.desktop_actions
-                            .iter()
-                            .enumerate()
-                            .map(|(action_index, action)| {
-                                cosmic::widget::menu::Item::Button(
-                                action.name.to_string(),
-                                None,
-                                crate::applet_menu::ContextMenuAction::
-                                    LaunchApplicationWithAction(app_index, action_index),
-                            )
-                            })
-                            .collect();
-
-                    if !additional_options_buttons.is_empty() {
-                        context_menu_buttons.push(cosmic::widget::menu::Item::Divider);
-                        context_menu_buttons.extend(additional_options_buttons);
-                    }
-
-                    let trees = cosmic::widget::menu::items(
-                        &std::collections::HashMap::new(),
-                        context_menu_buttons,
-                    );
-                    self.context_menus.insert(app.id.clone(), trees);
-                }
+                // Indices into the old list no longer apply.
+                self.context_menu_target = None;
+                self.context_menu = None;
 
                 Task::none()
             }
@@ -371,53 +334,8 @@ impl Application for Applet {
                             self.app_list_config.add_pinned(pinned_id, &app_list_helper);
                         }
 
-                        // Rebuild the cached menu for this app to reflect the new pin state
-                        let new_is_favorites = !favorites;
-                        let mut context_menu_buttons: Vec<
-                            cosmic::widget::menu::Item<crate::applet_menu::ContextMenuAction, _>,
-                        > = vec![
-                            cosmic::widget::menu::Item::Button(
-                                crate::fl!("launch"),
-                                None,
-                                crate::applet_menu::ContextMenuAction::LaunchApplication(app_index),
-                            ),
-                            cosmic::widget::menu::Item::CheckBox(
-                                crate::fl!("pin-to-panel"),
-                                None,
-                                new_is_favorites,
-                                crate::applet_menu::ContextMenuAction::PinToPanel(
-                                    app_index,
-                                    new_is_favorites,
-                                ),
-                            ),
-                        ];
-
-                        let additional_options_buttons: Vec<
-                            cosmic::widget::menu::Item<crate::applet_menu::ContextMenuAction, _>,
-                        > = app
-                            .desktop_actions
-                            .iter()
-                            .enumerate()
-                            .map(|(action_index, action)| {
-                                cosmic::widget::menu::Item::Button(
-                                    action.name.to_string(),
-                                    None,
-                                    crate::applet_menu::ContextMenuAction::
-                                        LaunchApplicationWithAction(app_index, action_index),
-                                )
-                            })
-                            .collect();
-
-                        if !additional_options_buttons.is_empty() {
-                            context_menu_buttons.push(cosmic::widget::menu::Item::Divider);
-                            context_menu_buttons.extend(additional_options_buttons);
-                        }
-
-                        let trees = cosmic::widget::menu::items(
-                            &std::collections::HashMap::new(),
-                            context_menu_buttons,
-                        );
-                        self.context_menus.insert(app.id.clone(), trees);
+                        // Reflect the new pin state
+                        self.update_context_menu();
                     }
                 }
 
@@ -425,6 +343,8 @@ impl Application for Applet {
             }
             Message::AppListConfigUpdated(app_list_config) => {
                 self.app_list_config = app_list_config;
+                // The pin state shown in the context menu may have changed.
+                self.update_context_menu();
 
                 Task::none()
             }
@@ -434,6 +354,20 @@ impl Application for Applet {
             Message::ScrollUpdated(viewport) => {
                 self.scroll_offset = viewport.absolute_offset().y;
                 self.scroll_viewport_height = viewport.bounds().height;
+                Task::none()
+            }
+            Message::ContextMenuTarget(index) => {
+                self.context_menu_target = Some(index);
+                self.context_menu_target_claimed = true;
+                self.update_context_menu();
+                Task::none()
+            }
+            Message::ContextMenuRightPress => {
+                if !self.context_menu_target_claimed {
+                    self.context_menu_target = None;
+                    self.context_menu = None;
+                }
+                self.context_menu_target_claimed = false;
                 Task::none()
             }
         }
@@ -497,6 +431,8 @@ impl Applet {
         self.selected_category = Some(ApplicationCategory::ALL);
         self.available_applications = load_apps();
         self.selected_item_index = None;
+        self.context_menu_target = None;
+        self.context_menu = None;
 
         let mut tasks = vec![];
         self.popup_type = popup_type;
@@ -536,6 +472,57 @@ impl Applet {
             tasks.push(get_popup(popup_settings));
             Task::batch(tasks)
         }
+    }
+
+    /// Builds the menu for the right clicked app, the only one needed.
+    fn update_context_menu(&mut self) {
+        self.context_menu = self.context_menu_target.and_then(|app_index| {
+            self.available_applications
+                .get(app_index)
+                .map(|app| self.build_context_menu(app_index, app))
+        });
+    }
+
+    /// Context menu of the app at `app_index` in `available_applications`.
+    fn build_context_menu(
+        &self,
+        app_index: usize,
+        app: &ApplicationEntry,
+    ) -> Vec<cosmic::widget::menu::Tree<Message>> {
+        use crate::applet_menu::ContextMenuAction;
+        use cosmic::widget::menu::Item;
+
+        let is_app_in_favorites =
+            crate::logic::apps::is_app_in_favorites(app, &self.app_list_config);
+
+        let mut context_menu_buttons = vec![
+            Item::Button(
+                crate::fl!("launch"),
+                None,
+                ContextMenuAction::LaunchApplication(app_index),
+            ),
+            Item::CheckBox(
+                crate::fl!("pin-to-panel"),
+                None,
+                is_app_in_favorites,
+                ContextMenuAction::PinToPanel(app_index, is_app_in_favorites),
+            ),
+        ];
+
+        if !app.desktop_actions.is_empty() {
+            context_menu_buttons.push(Item::Divider);
+            context_menu_buttons.extend(app.desktop_actions.iter().enumerate().map(
+                |(action_index, action)| {
+                    Item::Button(
+                        action.name.to_string(),
+                        None,
+                        ContextMenuAction::LaunchApplicationWithAction(app_index, action_index),
+                    )
+                },
+            ));
+        }
+
+        cosmic::widget::menu::items(&std::collections::HashMap::new(), context_menu_buttons)
     }
 
     fn close_popup(&mut self, id: Id) -> Task<Message> {
@@ -680,24 +667,20 @@ impl Applet {
     }
 
     fn update_recent_applications(&mut self, app: Arc<ApplicationEntry>) {
-        let current_recent_application = self
-            .config
-            .recent_applications
-            .iter_mut()
-            .find(|x| x.app_id == app.id);
-        if let Some(recent_app) = current_recent_application {
-            if recent_app.launch_count < u32::MAX {
-                recent_app.launch_count += 1;
-            }
+        let mut recent_applications = self.config.recent_applications.clone();
+        if let Some(recent_app) = recent_applications.iter_mut().find(|x| x.app_id == app.id) {
+            recent_app.launch_count = recent_app.launch_count.saturating_add(1);
         } else {
-            self.config.recent_applications.push(RecentApplication {
+            recent_applications.push(RecentApplication {
                 app_id: app.id.clone(),
                 launch_count: 1,
             });
         }
 
+        // Write only this key, so settings changed meanwhile on the settings page are not
+        // overwritten with this applet's copy of the config.
         if let Some(handler) = AppletConfig::config_handler().as_ref() {
-            if let Err(err) = self.config.write_entry(handler) {
+            if let Err(err) = self.config.set_recent_applications(handler, recent_applications) {
                 log::error!("failed to write recent applications config: {err}");
             }
         } else {
